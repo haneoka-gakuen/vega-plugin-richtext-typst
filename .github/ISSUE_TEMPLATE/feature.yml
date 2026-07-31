@@ -1,0 +1,18 @@
+name: Feature proposal
+description: Propose a safe portable Typst rendering capability
+title: "[Proposal] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+    validations:
+      required: true
+  - type: textarea
+    id: policy
+    attributes:
+      label: Compilation and sanitization policy
+      description: Describe compiler lifecycle, cancellation, fallback, and SVG safety requirements.
+    validations:
+      required: true

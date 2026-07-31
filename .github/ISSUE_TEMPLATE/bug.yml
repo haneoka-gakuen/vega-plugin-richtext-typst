@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible Typst compilation or SVG sanitization defect
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "@haneoka/vega-plugin-richtext-typst 0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Typst reproduction
+      description: Include the exact source and whether the default or an injected compiler is used.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
