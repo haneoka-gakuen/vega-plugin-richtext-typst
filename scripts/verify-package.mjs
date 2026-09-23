@@ -1,24 +1,14 @@
 import { readFile } from "node:fs/promises";
 
-const manifest = JSON.parse(
-  await readFile(new URL("../package.json", import.meta.url), "utf8"),
-);
+const manifest = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
 
 if (!manifest.repository?.url?.endsWith("/vega-plugin-richtext-typst.git")) {
-  throw new Error(
-    "package repository must point to the independent Typst plugin repository",
-  );
+  throw new Error("package repository must point to the independent Typst plugin repository");
 }
-if (
-  manifest.publishConfig?.access !== "public" ||
-  manifest.publishConfig?.provenance !== true
-) {
+if (manifest.publishConfig?.access !== "public" || manifest.publishConfig?.provenance !== true) {
   throw new Error("public provenance publishing is required");
 }
-if (
-  !manifest.vega?.formats?.includes("typst") ||
-  !manifest.vega?.formats?.includes("typ")
-) {
+if (!manifest.vega?.formats?.includes("typst") || !manifest.vega?.formats?.includes("typ")) {
   throw new Error("Typst format metadata is required");
 }
 if (
