@@ -18,3 +18,7 @@ visible as plain text and is marked as a render error by the service.
 Applications may inject a `TypstSvgCompiler` when compilation is hosted in a
 worker or another process. The returned SVG is always passed through the same
 sanitization boundary.
+
+## License
+
+[MPL-2.0](LICENSE).
