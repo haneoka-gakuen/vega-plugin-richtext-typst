@@ -15,17 +15,26 @@ export interface TypstRichTextOptions {
 }
 
 let browserWasmReady: Promise<void> | undefined;
+const loadCompressedWasm = async (source: URL): Promise<ArrayBuffer> => {
+  const response = await fetch(source);
+  if (!response.ok) throw new Error(`Typst runtime HTTP ${response.status}`);
+  const bytes = await response.arrayBuffer();
+  const signature = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 2));
+  return signature[0] === 0x1f && signature[1] === 0x8b
+    ? new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer()
+    : bytes;
+};
 
 const prepareBrowserWasm = async (typst: typeof import("@myriaddreamin/typst.ts").$typst): Promise<void> => {
   if (typeof window === "undefined") return;
   browserWasmReady ??= Promise.resolve().then(() => {
-    const compiler = new URL("./typst_ts_web_compiler_bg.wasm", import.meta.url);
-    const renderer = new URL("./typst_ts_renderer_bg.wasm", import.meta.url);
+    const compiler = new URL("./typst_ts_web_compiler_bg.wasm.gz", import.meta.url);
+    const renderer = new URL("./typst_ts_renderer_bg.wasm.gz", import.meta.url);
     typst.setCompilerInitOptions({
-      getModule: () => compiler,
+      getModule: () => loadCompressedWasm(compiler),
     });
     typst.setRendererInitOptions({
-      getModule: () => renderer,
+      getModule: () => loadCompressedWasm(renderer),
     });
   });
   await browserWasmReady;
@@ -67,6 +76,8 @@ const removeExternalReferences = (root: SVGSVGElement): void => {
       if ((name === "href" || name === "xlink:href") && !attribute.value.trim().startsWith("#")) {
         element.removeAttribute(attribute.name);
       }
+      if ((name === "fill" || name === "stroke") && /^(?:#000(?:000)?|black)$/iu.test(attribute.value))
+        element.setAttribute(attribute.name, "currentColor");
     }
   }
 };

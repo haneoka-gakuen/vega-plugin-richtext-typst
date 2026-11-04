@@ -19,6 +19,13 @@ Applications may inject a `TypstSvgCompiler` when compilation is hosted in a
 worker or another process. The returned SVG is always passed through the same
 sanitization boundary.
 
+Black SVG text and strokes inherit the surrounding text colour. Other authored
+colours remain in the SVG, so formulas follow light and dark dialogue themes.
+
+Browser compiler and renderer modules ship as gzip assets and decompress locally
+before WebAssembly initialization. This keeps each static asset below 25 MiB;
+hosts serve the generated `.wasm.gz` files alongside the plugin modules.
+
 ## License
 
 [MPL-2.0](LICENSE).

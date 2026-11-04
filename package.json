@@ -80,7 +80,8 @@
       "rich-text"
     ],
     "permissions": [
-      "ui:dom"
+      "ui:dom",
+      "wasm:execute"
     ],
     "targets": [
       "web",
