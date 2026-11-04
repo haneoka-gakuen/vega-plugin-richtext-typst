@@ -30,6 +30,7 @@ jobs:
           repository: haneoka-gakuen/vega
           path: vega-plugin-richtext-typst/.dependencies/vega
           persist-credentials: false
+          ref: 2fa1b39c1176852db38a45b453c737e8e3439f5d
 
       - name: Check out rich-text service
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -37,6 +38,7 @@ jobs:
           repository: haneoka-gakuen/vega-plugin-richtext
           path: vega-plugin-richtext-typst/.dependencies/vega-plugin-richtext
           persist-credentials: false
+          ref: c043823cbb2c63a6966343db2e9ef0fb8ba4b703
 
       - name: Set up pnpm
         uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
